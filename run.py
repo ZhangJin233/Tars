@@ -15,4 +15,4 @@ def hello_word():
     return now
 
 if __name__ == '__main__':
-    tars.run("0.0.0.0",threaded = True,debug=True)
+    tars.run("0.0.0.0",threaded = True)

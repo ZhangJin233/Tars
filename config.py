@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class Config(object):
-    now = datetime.now().strftime("%Y-%M-%d %H:%M:%S")
+    now = datetime.now().strftime("%y-%m-%d %H:%M:%S")
     ROOT =os.path.dirname(os.path.abspath(__file__))
     LOG_NAME = os.path.join(ROOT, 'logs','file-{}.log').format(now)
     JSON_AS_ASCII = False  

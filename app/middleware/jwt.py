@@ -3,7 +3,6 @@ import jwt
 from jwt.exceptions import ExpiredSignatureError
 import hashlib
 
-
 EXPIRED_HOUR = 3
 
 class UserToken(object):
@@ -12,13 +11,15 @@ class UserToken(object):
 
     @staticmethod
     def get_token(data):
-        new_data = dict({'exp':datetime.utcnow() + timedelta(hours=EXPIRED_HOUR)},**data)
-        return jwt.decode(new_data,key=UserToken.key).decode()
+        payload = dict({'exp': datetime.utcnow() + timedelta(hours=EXPIRED_HOUR)}, **data)
+        
+        return jwt.encode(payload, key=UserToken.key, algorithm='HS256').decode('utf-8')
 
     @staticmethod
     def parse_token(token):
         try:
-            return jwt.decode(token, key=UserToken.key)
+            payload = jwt.decode(token,key = UserToken.key, algorithm=['HS256'])
+            return payload
         except ExpiredSignatureError as error:
             print(f'Unable to decode the token, error: {error}')
 

@@ -3,6 +3,7 @@ from app.models.user import User
 from app.middleware.jwt import UserToken
 from sqlalchemy import or_
 from app.models import db
+from datetime import datetime
 
 
 
@@ -30,3 +31,19 @@ class UserDao(object):
             UserDao.log.error(f"用户注册失败: {str(e)}")
             return str(e)
         return None
+
+    @staticmethod
+    def login(username, password):
+        try:
+            pwd = UserToken.add_salt(password)
+            user = User.query.filter_by(username = username,password = pwd,deleted_at=None).first()
+            if user is None:
+                return None, "用户名或密码错误"
+            user.last_login_at = datetime.now()
+            db.session.commit()
+            return user, None
+        except Exception as e:
+            UserDao.log.error(f"用户{username}登录失败: {str(e)}")
+            return None, str(e)
+
+
