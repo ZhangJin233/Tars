@@ -3,8 +3,10 @@ from app.utils.log import Log
 from datetime import datetime
 from app.controllers.auth.user import auth
 from app import dao
+from app.controllers.request.http import req
 
 tars.register_blueprint(auth)
+tars.register_blueprint(req)
 
 @tars.route('/')
 def hello_word():
